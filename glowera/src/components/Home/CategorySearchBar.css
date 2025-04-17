@@ -1,0 +1,25 @@
+@keyframes moveRight {
+    0% {
+        left: 0.75rem;
+    }
+    100% {
+        left: calc(100% - 2.5rem);
+    }
+}
+
+@keyframes moveLeft {
+    0% {
+        left: calc(100% - 2.5rem);
+    }
+    100% {
+        left: 0.75rem;
+    }
+}
+
+.icon-move-right {
+    animation: moveRight .5s ease-in-out forwards;
+}
+
+.icon-move-left {
+    animation: moveLeft .2s ease-in-out forwards;
+}

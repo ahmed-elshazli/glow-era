@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+* {
+  box-sizing: border-box;
+}
+
+.header {
+  height: 100vh;
+  width: 100%;
+  align-items: center;
+  position: relative;
+}
+
+.header .container {
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+/* Ensure logo and menu align properly */
+.logo img {
+  height: 40px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .header .container nav {
+    flex-direction: column;
+  }
+
+  .header .container nav ul {
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+  }
+
+  .header .container nav button {
+    width: auto;
+  }
+}
+
+h1{
+  font-family: 'Charmonman','poppins' ,cursive;
+
+}
+h2{
+  font-family: 'poppins' , cursive;
+}
+

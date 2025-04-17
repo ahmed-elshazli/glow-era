@@ -1,0 +1,41 @@
+/* Custom styling for radio buttons */
+.custom-radio {
+    appearance: none; /* Remove default browser styling */
+    width: 1.75rem; /* Default size for medium screens and above (matches md:w-7 md:h-7) */
+    height: 1.75rem;
+    border: 2px solid #EC4680; /* Pink border before selection */
+    border-radius: 50%; /* Make it a circle */
+    background-color: white; /* White background when unselected */
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.custom-radio:checked {
+    background-color: #EC4680; /* Pink fill when selected */
+    border: 2px solid #EC4680; /* Keep the border pink */
+}
+
+.custom-radio:checked::before {
+    content: '';
+    width: 1rem; /* Size of the inner dot */
+    height: 1rem;
+    background-color: white; /* White dot in the center when selected */
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .custom-radio {
+        width: 1.25rem; /* Matches w-5 h-5 for smaller screens */
+        height: 1.25rem;
+    }
+    .custom-radio:checked::before {
+        width: 0.75rem; /* Smaller dot for smaller screens */
+        height: 0.75rem;
+    }
+}
