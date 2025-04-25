@@ -9,12 +9,13 @@ export const getAllProducts =
             const { auth } = getState();
             const token = auth?.token || localStorage.getItem("token");
 
-            const endpoint = categoryId ? `/api/v1/categories/${categoryId}/products` : `/api/v1/products`;
+            // ✅ استخدم الفلترة الصحيحة بالـ query param
+            const endpoint = categoryId ? `/api/v1/products?category=${categoryId}` : `/api/v1/products`;
 
             const response = await useGetData(endpoint, {
                 headers: {
                     "Content-Type": "application/json",
-                    ...(token && { Authorization: `Bearer ${token}` }), // إضافة الرمز إذا كان موجودًا
+                    ...(token && { Authorization: `Bearer ${token}` }),
                 },
             });
 
@@ -29,6 +30,7 @@ export const getAllProducts =
         } catch (error) {
             const errorMessage = error.response?.data?.message || error.message || "Failed to fetch products";
             console.error("❌ Error fetching products:", errorMessage);
+
             if (error.response?.status === 400 || error.response?.status === 401) {
                 dispatch({
                     type: CHECK_USER_ERROR,

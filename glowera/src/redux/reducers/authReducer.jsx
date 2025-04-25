@@ -2,8 +2,8 @@ import { CREATE_NEW_USER, LOGIN_USER, SET_USER, LOGOUT_USER, CHECK_USER_REQUEST,
 
 const initialState = {
     user: null,
-    token: null,
-    isAuthenticated: false,
+    token: localStorage.getItem("token") || null,
+    isAuthenticated: !!localStorage.getItem("token"),
     loading: false,
     error: null,
 };
@@ -18,20 +18,23 @@ const authReducer = (state = initialState, action) => {
                 error: null,
             };
 
-        case CHECK_USER_ERROR:
-            console.log("authReducer: Received CHECK_USER_ERROR:", action.payload);
+        case CHECK_USER_ERROR: {
+            const message = action.payload?.message || action.payload?.error || "انتهت الجلسة. يرجى تسجيل الدخول مجددًا.";
+
+            console.warn("authReducer: Session expired or invalid token.");
             return {
                 ...state,
                 user: null,
                 token: null,
                 isAuthenticated: false,
                 loading: false,
-                error: action.payload.error || "Failed to verify user",
+                error: message,
             };
+        }
 
         case CREATE_NEW_USER:
         case LOGIN_USER:
-            console.log("authReducer: Received event:", action.type, "Payload:", action.payload);
+            console.log("authReducer: Received", action.type);
             return {
                 ...state,
                 user: action.payload.user || null,
@@ -42,14 +45,14 @@ const authReducer = (state = initialState, action) => {
             };
 
         case SET_USER:
-            console.log("authReducer: Received SET_USER:", action.payload);
+            console.log("authReducer: Received SET_USER");
             return {
                 ...state,
                 user: action.payload.user || null,
                 token: action.payload.token || null,
                 isAuthenticated: Boolean(action.payload.user && action.payload.token),
                 loading: false,
-                error: action.payload.error || null, // السماح بتخزين الخطأ إذا كان موجودًا
+                error: action.payload.error || null,
             };
 
         case LOGOUT_USER:

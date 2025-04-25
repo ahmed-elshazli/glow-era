@@ -52,38 +52,26 @@ const OrderPayCashHook = () => {
 
     const handleCashSubmit = async (e) => {
         e.preventDefault();
+
+        const orderData = {
+            location: userDetails.location,
+            phone: userDetails.phone,
+            paymentMethod: "cash",
+        };
+
         try {
-            if (!user || !user._id) {
-                toast.error("الرجاء تسجيل الدخول أولاً.");
-                return;
+            if (cartId) {
+                await dispatch(createOrder(orderData, cartId));
+                toast.success("Order placed successfully!", { position: "top-center" });
+                navigate("/success"); // توجيه المستخدم إلى صفحة التأكيد
+            } else {
+                toast.error("Cart ID is missing!", { position: "top-center" });
             }
-
-            if (!isValidPhone(userDetails.phone)) {
-                toast.error("رقم الهاتف غير صالح. يجب أن يكون بين 10 و15 رقم.");
-                return;
-            }
-
-            const orderData = {
-                cartId,
-                paymentMethod: "cash",
-                shippingAddress: {
-                    location: userDetails.location,
-                    phone: userDetails.phone,
-                },
-            };
-
-            await dispatch(createOrder(orderData));
-            toast.success("تم إنشاء الطلب بنجاح!");
-
-            // ✅ إغلاق البوب أب تلقائيًا بعد الدفع
-            setTimeout(() => {
-                setShowPopup(false);
-                navigate("/order-success"); // ✅ غيّر المسار حسب اللي تبيه
-            }, 1000);
         } catch (error) {
-            toast.error(error.message || "فشل في إنشاء الطلب.");
+            toast.error("Failed to create order.", { position: "top-center" });
         }
     };
+
 
     return {
         showPopup,

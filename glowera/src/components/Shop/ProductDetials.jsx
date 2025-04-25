@@ -32,52 +32,69 @@ function ProductDetails() {
         }
     };
 
-    const handleAddToCart = async () => {
-        if (isAdding) return;
-        if (!product || !product._id || !product.price) {
-            toast.error("An error occurred while loading product data!", { position: "top-center" });
-            return;
-        }
+   const handleAddToCart = async () => {
+       if (isAdding) return;
 
-        if (!selectedSize) {
-            toast.warning("Please select a size first!", { position: "top-center" });
-            return;
-        }
+       // التحقق من وجود بيانات المنتج
+       if (!product || !product._id || !product.price) {
+           toast.error("حدث خطأ أثناء تحميل بيانات المنتج!", { position: "top-center" });
+           return;
+       }
 
-        try {
-            setIsAdding(true);
-            const productToAdd = {
-                _id: product._id,
-                title: product.title,
-                price: product.price,
-                images: product.images,
-                category: product.category,
-                size: selectedSize,
-                quantity: quantity,
-            };
+       // التحقق من تحديد المقاس
+       if (!selectedSize) {
+           toast.warning("من فضلك اختر المقاس أولاً!", { position: "top-center" });
+           return;
+       }
 
-            await dispatch(addToCart(productToAdd));
+       // التحقق من أن الكمية أكثر من 0
+       if (quantity < 1) {
+           toast.warning("الكمية يجب أن تكون 1 على الأقل.", { position: "top-center" });
+           return;
+       }
 
-            toast.success("Product added to cart 🛒", {
-                position: "top-center",
-                autoClose: 2000,
-                style: {
-                    backgroundColor: "#FCE8EF",
-                    color: "#5C0A25",
-                    fontWeight: "bold",
-                    fontFamily: "inherit",
-                    borderRadius: "10px",
-                    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
-                },
-                icon: "🛒",
-            });
-        } catch (err) {
-            console.error("Error adding to cart:", err);
-            toast.error("An error occurred while adding to the cart.", { position: "top-center" });
-        } finally {
-            setIsAdding(false);
-        }
-    };
+       try {
+           setIsAdding(true);
+
+           // إنشاء الكائن الذي سيتم إضافته للسلة
+           const productToAdd = {
+               _id: product._id,
+               title: product.title,
+               price: product.price,
+               images: product.images,
+               category: product.category,
+               size: selectedSize,
+               quantity: quantity, // تأكد من أن الكمية الحالية تم تمريرها
+           };
+
+           console.log(`🔼 إرسال المنتج للسلة بالكمية: ${quantity}`);
+
+           // إضافة المنتج للسلة
+           await dispatch(addToCart(productToAdd));
+
+           // إظهار إشعار بنجاح الإضافة للسلة
+           toast.success("تمت إضافة المنتج للسلة 🛒", {
+               position: "top-center",
+               autoClose: 2000,
+               style: {
+                   backgroundColor: "#FCE8EF",
+                   color: "#5C0A25",
+                   fontWeight: "bold",
+                   fontFamily: "inherit",
+                   borderRadius: "10px",
+                   boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+               },
+               icon: "🛒",
+           });
+       } catch (err) {
+           console.error("خطأ في الإضافة للسلة:", err);
+           toast.error("حدث خطأ أثناء إضافة المنتج للسلة.", { position: "top-center" });
+       } finally {
+           setIsAdding(false);
+       }
+   };
+
+
 
     if (loading) return <p className="text-center text-[#5C0A27] text-xl mt-10">Loading...</p>;
     if (error) return <p className="text-center text-[#5C0A27] text-xl mt-10">Error: {error}</p>;
@@ -95,14 +112,18 @@ function ProductDetails() {
 
                     <h6 className="text-[#F0759E] mt-4 text-lg font-semibold">📍 Size:</h6>
                     <div className="flex flex-wrap gap-2 my-2">
-                        {product.size?.map((s, index) => (
-                            <button
-                                key={index}
-                                onClick={() => setSelectedSize(s)}
-                                className={`px-4 py-1 border rounded-lg transition ${selectedSize === s ? "bg-[#F0759E] text-white" : "text-[#5C0A27] border-[#F0759E] hover:bg-[#F0759E20]"}`}>
-                                {s}
-                            </button>
-                        ))}
+                        {product.size?.length ? (
+                            product.size.map((s, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => setSelectedSize(s)}
+                                    className={`px-4 py-1 border rounded-lg transition ${selectedSize === s ? "bg-[#F0759E] text-white" : "text-[#5C0A27] border-[#F0759E] hover:bg-[#F0759E20]"}`}>
+                                    {s}
+                                </button>
+                            ))
+                        ) : (
+                            <p className="text-[#5C0A27]">No sizes available</p>
+                        )}
                     </div>
 
                     <div className="flex space-x-1 text-yellow-500 text-xl mt-3">

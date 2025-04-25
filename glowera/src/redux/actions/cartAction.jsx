@@ -1,4 +1,4 @@
-import { ADD_TO_CART, REMOVE_FROM_CART, UPDATE_QUANTITY, FETCH_CART_REQUEST, FETCH_CART_SUCCESS, FETCH_CART_ERROR, CHECK_USER_ERROR } from "../type";
+import { ADD_TO_CART, REMOVE_FROM_CART, UPDATE_QUANTITY, FETCH_CART_REQUEST, FETCH_CART_SUCCESS, FETCH_CART_ERROR, CHECK_USER_ERROR, UPDATE_TOTAL_QUANTITY, UPDATE_CART } from "../type";
 
 import baseURL from "../../Api/baseURL";
 import { toast } from "react-toastify";
@@ -89,6 +89,8 @@ export const fetchCart = () => async (dispatch, getState) => {
     }
 };
 
+
+
 // Create a cart if it doesn't exist
 export const createCartIfNotExists = () => async (dispatch, getState) => {
     try {
@@ -118,7 +120,7 @@ export const createCartIfNotExists = () => async (dispatch, getState) => {
 // Add a product to the cart
 export const addToCart = (productData) => async (dispatch, getState) => {
     try {
-        const { auth } = getState();
+        const { auth, cart } = getState();
         const token = auth?.token || localStorage.getItem("token");
 
         if (!token) {
@@ -126,6 +128,7 @@ export const addToCart = (productData) => async (dispatch, getState) => {
             return;
         }
 
+        // التأكد من الكمية
         const quantity = parseInt(productData.quantity, 10) || 1;
         if (quantity < 1) {
             toast.error("Quantity must be at least 1.", { position: "top-center" });
@@ -138,7 +141,6 @@ export const addToCart = (productData) => async (dispatch, getState) => {
             quantity: quantity,
         };
 
-        console.log("Sending add to cart request with quantity:", requestData);
         const response = await baseURL.post("/api/v1/carts", requestData, {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -147,18 +149,36 @@ export const addToCart = (productData) => async (dispatch, getState) => {
         });
 
         console.log("Add to cart response:", response.data);
+
         if (response.data.status === "success") {
-            dispatch(fetchCart());
+            // عند نجاح إضافة المنتج إلى السلة، نقوم بتحديث السلة من الرد
+            const updatedCartItems = response.data.data.cartItems;
+            const totalQuantity = updatedCartItems.reduce((total, item) => total + item.quantity, 0);
+
+            // تحديث السلة في Redux
+            dispatch({
+                type: UPDATE_CART,
+                payload: updatedCartItems,
+            });
+
+            // تحديث الكمية الإجمالية
+            dispatch({
+                type: UPDATE_TOTAL_QUANTITY,
+                payload: totalQuantity,
+            });
         } else {
             toast.error("Failed to add product to cart.", { position: "top-center" });
         }
     } catch (error) {
-        console.error("Add to cart error:", error.response?.data);
+        console.error("Add to cart error:", error);
         toast.error(error.response?.data?.message || "An error occurred while adding to cart.", {
             position: "top-center",
         });
     }
 };
+
+
+
 
 // Remove an item from the cart
 export const removeFromCart = (itemId) => async (dispatch, getState) => {

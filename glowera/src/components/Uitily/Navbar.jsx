@@ -50,8 +50,6 @@ export default function Navbar() {
     const isShopCartOrProductPage = location.pathname === "/shop" || location.pathname === "/cart" || location.pathname.startsWith("/product/");
     const isHomeOrRootPage = location.pathname === "/" || location.pathname === "/home";
 
-    // استخراج اسم المستخدم بدقة حسب الحقول المحتملة
-    // استخراج اسم المستخدم بدقة حسب الحقول المحتملة
     const userName = `${user?.fristName || ""} ${user?.lastName || ""}`.trim() || "User";
 
     return (

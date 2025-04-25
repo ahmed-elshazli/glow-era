@@ -17,6 +17,7 @@ const LoginHook = () => {
 
     useEffect(() => {
         if (isAuthenticated && user) {
+            toast.dismiss(); // تنظيف التوست القديم
             if (user.role === "admin") {
                 navigate("/dashboard");
             } else {

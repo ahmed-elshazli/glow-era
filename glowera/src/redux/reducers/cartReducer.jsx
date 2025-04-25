@@ -1,9 +1,7 @@
-// cartReducer.js
-
-import { ADD_TO_CART, REMOVE_FROM_CART, UPDATE_QUANTITY, FETCH_CART_REQUEST, FETCH_CART_SUCCESS, FETCH_CART_ERROR } from "../type";
+import { ADD_TO_CART, REMOVE_FROM_CART, UPDATE_QUANTITY, FETCH_CART_REQUEST, FETCH_CART_SUCCESS, FETCH_CART_ERROR, UPDATE_CART, UPDATE_TOTAL_QUANTITY } from "../type";
 
 const initialState = {
-    items: [],
+    items: [], // يمكن أن تظل القائمة كما هي لاحتواء المنتجات
     totalQuantity: 0,
     cartId: null,
     loading: false,
@@ -28,7 +26,7 @@ const cartReducer = (state = initialState, action) => {
         case FETCH_CART_ERROR:
             return { ...state, loading: false, error: action.payload };
 
-        case ADD_TO_CART:
+        case ADD_TO_CART: {
             const newItem = action.payload;
             const existingItem = state.items.find((item) => item.productId === newItem.productId && item.size === newItem.size);
             if (existingItem) {
@@ -43,22 +41,37 @@ const cartReducer = (state = initialState, action) => {
                 items: [...state.items, newItem],
                 totalQuantity: state.totalQuantity + newItem.quantity,
             };
+        }
 
-        case REMOVE_FROM_CART:
+        case REMOVE_FROM_CART: {
             const itemToRemove = state.items.find((item) => item._id === action.payload);
             return {
                 ...state,
                 items: state.items.filter((item) => item._id !== action.payload),
                 totalQuantity: state.totalQuantity - (itemToRemove?.quantity || 0),
             };
+        }
 
-        case UPDATE_QUANTITY:
+        case UPDATE_QUANTITY: {
             const itemToUpdate = state.items.find((item) => item._id === action.payload.id);
             const quantityDifference = action.payload.quantity - (itemToUpdate?.quantity || 0);
             return {
                 ...state,
                 items: state.items.map((item) => (item._id === action.payload.id ? { ...item, quantity: action.payload.quantity } : item)),
                 totalQuantity: state.totalQuantity + quantityDifference,
+            };
+        }
+
+        case UPDATE_CART:
+            return {
+                ...state,
+                items: action.payload,
+            };
+
+        case UPDATE_TOTAL_QUANTITY:
+            return {
+                ...state,
+                totalQuantity: action.payload,
             };
 
         default:

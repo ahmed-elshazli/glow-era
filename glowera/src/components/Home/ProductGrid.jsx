@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import { FaHeart, FaRegHeart, FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { useNavigate, Link } from "react-router-dom"; // Import Link for navigation to shop page
+import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import ViewHomeProductsHook from "../../hooks/products/view-home-products-hook";
 import { getAllProducts } from "../../redux/actions/productsAction";
 
-// Function to truncate text to a specific word limit
+// Truncate text to a specific number of words
 const truncateText = (text, wordLimit) => {
     if (!text) return "";
     const words = text.split(" ");
@@ -31,6 +31,7 @@ function ProductGrid() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    // Adjust title/description length based on screen size
     let titleWordLimit = 4;
     let descWordLimit = 6;
     if (width < 640) {
@@ -55,7 +56,13 @@ function ProductGrid() {
         }
     };
 
-    // Function to manually fetch products
+    // Fetch products only if a skin type is selected
+    useEffect(() => {
+        if (selectedSkinType && selectedSkinType._id) {
+            dispatch(getAllProducts(selectedSkinType._id));
+        }
+    }, [selectedSkinType?._id, dispatch]);
+
     const fetchProducts = () => {
         if (selectedSkinType?._id) {
             dispatch(getAllProducts(selectedSkinType._id));
@@ -82,6 +89,14 @@ function ProductGrid() {
                         </div>
                     ) : loading ? (
                         <p>Loading...</p>
+                    ) : !selectedSkinType || !selectedSkinType._id ? (
+                        <p>
+                            Please select a skin type to view products or go to the{" "}
+                            <Link to="/shop" className="text-[#C0748D] hover:underline">
+                                shop page
+                            </Link>
+                            .
+                        </p>
                     ) : allProducts?.length > 0 ? (
                         allProducts.map((product) => (
                             <div
@@ -113,13 +128,7 @@ function ProductGrid() {
                             </div>
                         ))
                     ) : (
-                        <p>
-                            Please select a category to show products or go to the{" "}
-                            <Link to="/shop" className="text-[#C0748D] hover:underline">
-                                shop page
-                            </Link>
-                            .
-                        </p>
+                        <p>No products found for the selected skin type.</p>
                     )}
                 </div>
             </div>

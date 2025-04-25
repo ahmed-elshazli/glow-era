@@ -9,7 +9,7 @@ import apple from "../../assets/ApplePay.png";
 import google from "../../assets/GooglePay.png";
 import paypal from "../../assets/PayPal.png";
 import { useSelector, useDispatch } from "react-redux";
-import { removeFromCart, updateQuantity, fetchCart } from "../../redux/actions/cartAction";
+import { removeFromCart, fetchCart } from "../../redux/actions/cartAction";
 
 function Cart() {
     const dispatch = useDispatch();
@@ -20,19 +20,9 @@ function Cart() {
     const totalQuantity = items.reduce((total, item) => total + (item.quantity || 0), 0);
     const subtotal = items.reduce((total, item) => total + (item.price || 0) * (item.quantity || 0), 0);
 
-    // جلب بيانات السلة عند تحميل الصفحة
     useEffect(() => {
         dispatch(fetchCart());
     }, [dispatch]);
-
-    const handleQuantityChange = (id, newQuantity) => {
-        if (newQuantity < 1) {
-            dispatch(removeFromCart(id));
-            toast.info("Item removed from cart.", { position: "top-center" });
-            return;
-        }
-        dispatch(updateQuantity(id, newQuantity));
-    };
 
     const handleCheckout = () => {
         if (items.length === 0) {
@@ -85,19 +75,8 @@ function Cart() {
                                             </td>
                                             <td className="py-4 font-bold text-[#3D1C1E]">EGP {item.price || "N/A"}</td>
                                             <td className="py-4 text-center">
-                                                <div className="flex items-center justify-center gap-2">
-                                                    <button
-                                                        onClick={() => handleQuantityChange(item._id, (item.quantity || 0) - 1)}
-                                                        className="bg-[#EC4680] text-white px-2 py-1 rounded hover:opacity-90">
-                                                        -
-                                                    </button>
-                                                    <span className="w-8 text-center">{item.quantity || 0}</span>
-                                                    <button
-                                                        onClick={() => handleQuantityChange(item._id, (item.quantity || 0) + 1)}
-                                                        className="bg-[#EC4680] text-white px-2 py-1 rounded hover:opacity-90">
-                                                        +
-                                                    </button>
-                                                </div>
+                                                {/* Display quantity with a message if 0 */}
+                                                <div className={`w-8 text-center ${item.quantity === 0 ? "text-red-500" : ""}`}>{item.quantity === 0 ? "Out of Stock" : item.quantity}</div>
                                             </td>
                                             <td className="py-4 font-bold text-[#3D1C1E]">EGP {(item.price || 0) * (item.quantity || 0)}</td>
                                             <span

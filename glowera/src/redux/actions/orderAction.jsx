@@ -10,6 +10,7 @@ export const UPDATE_ORDER_STATUS_ERROR = "UPDATE_ORDER_STATUS_ERROR";
 import baseURL from "../../Api/baseURL";
 
 // ✅ إنشاء طلب كاش (عادي)
+// في ملف actions/orderAction.js
 export const createOrder = (orderData, cartId) => async (dispatch, getState) => {
     try {
         dispatch({ type: CREATE_ORDER_REQUEST });
@@ -41,6 +42,7 @@ export const createOrder = (orderData, cartId) => async (dispatch, getState) => 
         throw error;
     }
 };
+
 
 // ✅ تحديث حالة الطلب إلى مدفوع (مثلاً بعد الدفع أو من لوحة الإدارة)
 export const updateOrderStatus = (orderId, isPaid) => async (dispatch, getState) => {
@@ -76,7 +78,7 @@ export const updateOrderStatus = (orderId, isPaid) => async (dispatch, getState)
         });
         throw error;
     }
-};
+};  
 
 // ✅ Stripe Checkout: الانتقال إلى صفحة الدفع
 export const goToStripeCheckout = (cartId) => async (dispatch, getState) => {
@@ -87,16 +89,23 @@ export const goToStripeCheckout = (cartId) => async (dispatch, getState) => {
         if (!token) throw new Error("Authentication token not found");
         if (!cartId) throw new Error("Cart ID is required for checkout session");
 
+        // إرسال طلب لـ Checkout Session باستخدام cartId
         const response = await baseURL.get(`/api/v1/orders/checkout-session/${cartId}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         });
 
-        // ✅ التوجيه إلى صفحة الدفع الخاصة بـ Stripe
-        window.location.href = response.data.session.url;
+        // تحقق من حالة الرد وفتح الرابط
+        if (response.data.status === "success" && response.data.data.url) {
+            window.location.href = response.data.data.url; // التوجيه إلى رابط الدفع
+        } else {
+            throw new Error("فشل في الحصول على رابط الدفع.");
+        }
     } catch (error) {
         console.error("Stripe checkout error:", error);
-        // ممكن تضيف dispatch error أو toast
+        toast.error(error.message || "حدث خطأ أثناء عملية الدفع.", {
+            position: "top-center",
+        });
     }
 };

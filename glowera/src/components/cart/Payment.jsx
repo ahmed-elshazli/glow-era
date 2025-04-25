@@ -43,6 +43,7 @@ function Payment() {
                 navigate("/cart"); // توجيه المستخدم إلى السلة
                 return;
             }
+
             if (!cartId) {
                 // محاولة إنشاء سلة إذا لزم الأمر
                 await dispatch(createCartIfNotExists());
@@ -60,6 +61,7 @@ function Payment() {
             });
         }
     };
+
 
     if (authLoading || cartLoading) return <p>Loading...</p>;
     if (cartError) return <p className="text-red-500 text-center">{cartError}</p>;
@@ -90,10 +92,10 @@ function Payment() {
                             <input type="text" name="location" value={userDetails.location} onChange={handleInputChange} placeholder="Location" required className="w-full p-2 border rounded mb-4" />
                             <input type="tel" name="phone" value={userDetails.phone} onChange={handleInputChange} placeholder="Phone Number" required className="w-full p-2 border rounded mb-4" />
                             <div className="flex justify-end gap-2">
-                                <button type="button" onClick={() => setShowPopup(false)} className="bg-gray-300 px-4 py-2 rounded">
+                                <button type="button" onClick={() => setShowPopup(false)} className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-200">
                                     Cancel
                                 </button>
-                                <button type="submit" className="bg-[#EC4680] text-white px-4 py-2 rounded">
+                                <button type="submit" className="bg-[#EC4680] text-white px-4 py-2 rounded hover:bg-[#ec4680d0]">
                                     Confirm
                                 </button>
                             </div>

@@ -15,7 +15,11 @@ export const UPDATE_QUANTITY = "UPDATE_QUANTITY";
 export const FETCH_CART_REQUEST = "FETCH_CART_REQUEST";
 export const FETCH_CART_SUCCESS = "FETCH_CART_SUCCESS";
 export const FETCH_CART_ERROR = "FETCH_CART_ERROR";
-export const CLEAR_CART = "CLEAR_CART";
+export const UPDATE_CART = "UPDATE_CART";
+export const UPDATE_TOTAL_QUANTITY = "UPDATE_TOTAL_QUANTITY";
+
+
+
 
 // أنواع إجراءات المنتجات
 export const GET_ALL_PRODUCTS = "GET_ALL_PRODUCTS";
