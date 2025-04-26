@@ -28,11 +28,9 @@ function ShopPage() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    // Get products, loading state, and error from Redux
     const { data: products, loading, error } = useSelector((state) => state.allProducts);
     const width = useWindowWidth();
 
-    // Word limit based on screen size
     let titleWordLimit = 4;
     let descWordLimit = 6;
     if (width < 640) {
@@ -43,37 +41,38 @@ function ShopPage() {
         descWordLimit = 4;
     }
 
-    // Fetch products on component mount
     useEffect(() => {
         dispatch(getAllProducts());
     }, [dispatch]);
 
-    // Toggle wishlist item
     const toggleWishlist = (id) => {
         setWishlist((prevWishlist) => (prevWishlist.includes(id) ? prevWishlist.filter((item) => item !== id) : [...prevWishlist, id]));
     };
 
-    // Filter products based on search input
     const filteredProducts = Array.isArray(products) ? products.filter((product) => product.title.toLowerCase().includes(searchQuery.toLowerCase())) : [];
 
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        console.log("Searching for:", searchQuery);
+    };
 
     return (
-        <section className="py-10 pb-20">
-            <div className="container mx-auto px-6">
-                {/* Search component */}
-                <div className="mb-30 mt-30 px-50">
-                    <form onSubmit={(e) => e.preventDefault()}>
-                        <label htmlFor="search" className="mb-2 text-sm font-medium text-[#F0759E] sr-only">
-                            Search
-                        </label>
-                        <div className="relative">
-                            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                <FaSearch className="w-4 h-4 text-[#F0759E]" />
+        <section className="py-8 pt-46">
+            <div className="container mx-auto px-4 sm:px-6">
+                {/* Search Bar */}
+                <div className="flex justify-center mb-12 sm:mb-12">
+                    <form onSubmit={handleSearchSubmit} className="w-full max-w-md flex items-center space-x-2 rtl:space-x-reverse">
+                        <div className="relative flex-1">
+                            <label htmlFor="search" className="mb-2 text-sm font-medium text-[#F0759E] sr-only">
+                                Search
+                            </label>
+                            <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                                <FaSearch className="w-5 h-5 text-[#F0759E]" />
                             </div>
                             <input
                                 type="search"
                                 id="search"
-                                className="block w-full p-4 pl-10 text-sm text-[#F0759E] border border-[#F0759E] rounded-lg bg-[#FCE8EF] focus:outline-[#f06392]"
+                                className="block w-full p-3 pl-12 text-base text-[#F0759E] border border-[#F0759E] rounded-lg bg-[#FCE8EF] focus:outline-none focus:ring-2 focus:ring-[#F0759E] placeholder-[#F0759E]"
                                 placeholder="Search for products by title..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -83,9 +82,10 @@ function ShopPage() {
                     </form>
                 </div>
 
-                <div className="text-start pl-10">
-                    <h2 className="text-3xl text-[#5C0A25] font-bold">All Products</h2>
-                    <hr className="w-100 border-[#5C0A25] mt-2" />
+                {/* Products List */}
+                <div className="text-start pl-4 sm:pl-10">
+                    <h2 className="text-2xl sm:text-3xl text-[#5C0A25] font-bold">All Products</h2>
+                    <hr className="w-32 sm:w-48 border-[#5C0A25] mt-2" />
                 </div>
 
                 {error ? (
@@ -107,7 +107,7 @@ function ShopPage() {
                                 <div className="relative">
                                     <img src={product.images[0]} alt={product.title} className="h-74 w-full object-cover rounded-xl transition duration-300 hover:scale-105" />
                                     <button
-                                        className="absolute bottom-4 right-4 border border-[#c74a6b] rounded-full p-2 transition-transform duration-200 hover:scale-110"
+                                        className="absolute bottom-4 right-4 border border-[#c74a6b] rounded-full p-2 transition-transform duration-200 hover:scale-110 bg-white"
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             toggleWishlist(product._id);
@@ -124,7 +124,7 @@ function ShopPage() {
                                         {truncateText(product.description, descWordLimit)}
                                     </p>
                                     <p className="text-white font-medium">{product.value}</p>
-                                    <p className="font-bold text-lg text-[#5C0A27] mt-2">${product.price}</p>
+                                    <p className="font-bold text-lg text-[#5C0A27] mt-2">EGP {product.price}</p>
                                 </div>
                             </div>
                         ))}

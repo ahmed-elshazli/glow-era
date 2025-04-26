@@ -1,65 +1,123 @@
-.reviews-container{
-    width: 100%;
-    height: 90vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: wrap;
-    padding: 50px;
+.reviews-container {
+  width: 100%;
+  height: auto; /* Changed to auto to prevent content cutoff */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px; /* Reduced gap for better spacing */
+  flex-wrap: wrap;
+  padding: 16px; /* Reduced padding for mobile */
 }
 
-.reviews-container .card{
-    width: calc((100% - 20px ) / 2);
-    height: auto;
-    padding: 50px;
-    display: flex;
-    gap: 20px;
-
+.reviews-container .card {
+  width: 100%; /* Full width on mobile */
+  max-width: 500px; /* Limit max width for larger screens */
+  height: auto;
+  padding: 16px; /* Reduced padding for mobile */
+  display: flex;
+  gap: 12px; /* Reduced gap for better spacing */
 }
 
-.reviews-container .card .card-image{
-    width: 30%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.reviews-container .card .card-image {
+  width: 80px; /* Fixed width for consistency */
+  height: 80px; /* Fixed height for consistency */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.reviews-container .card .card-content{
-    width: 70%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: start;
-    gap: 5px;
+.reviews-container .card .card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%; /* Circular images */
 }
 
-.reviews-container .card .card-content .name{
-    display: flex;
-    gap: 10px;
+.reviews-container .card .card-content {
+  width: calc(100% - 92px); /* Adjust for image width + gap */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start; /* Align text to the start */
+  gap: 5px;
 }
 
-.reviews-container .card .card-content .name h2{
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #5C0A27;
-
+.reviews-container .card .card-content .name {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Reduced gap for better spacing */
 }
 
-.reviews-container .card .card-content .name i{
-    color: #F49600;
+.reviews-container .card .card-content .name h2 {
+  font-size: 1.1rem; /* Slightly smaller for mobile */
+  font-weight: 700;
+  color: #5C0A27;
 }
 
-.reviews-container .card .card-content p{
-    color: #817C7C;
+.reviews-container .card .card-content .name .rate span {
+  font-size: 1rem; /* Consistent star size */
 }
 
-@media screen and (max-width: 768px) {
-    .reviews-container .card{
-        width: 100%;
-    }
-    .reviews-container {
-        height: auto;
-    }
+.reviews-container .card .card-content span {
+  font-size: 0.9rem; /* Slightly smaller for mobile */
+  color: #5C0A27;
+  font-weight: 500;
 }
 
+.reviews-container .card .card-content p {
+  font-size: 0.9rem; /* Slightly smaller for mobile */
+  color: #817C7C;
+  line-height: 1.4;
+}
+
+.reviews-container .card .card-content .name .rate {
+    font-size: 1.2rem; /* Match original font size for desktop */
+       color: #F49600;
+  }
+
+/* Desktop View (2x2 Grid) */
+@media screen and (min-width: 768px) {
+  .reviews-container {
+    padding: 32px; /* Increased padding for desktop */
+    gap: 24px; /* Increased gap for desktop */
+  }
+
+  .reviews-container .card {
+    width: calc((100% - 24px) / 2); /* 2 cards per row with gap */
+    padding: 24px; /* Increased padding for desktop */
+    gap: 16px; /* Increased gap for desktop */
+  }
+
+  .reviews-container .card .card-content .name h2 {
+    font-size: 1.2rem; /* Match original font size for desktop */
+  }
+  .reviews-container .card .card-content .name .rate {
+    font-size: 1.2rem; /* Match original font size for desktop */
+       color: #F49600;
+  }
+
+  .reviews-container .card .card-content span {
+    font-size: 1rem; /* Slightly larger for desktop */
+  }
+
+  .reviews-container .card .card-content p {
+    font-size: 1rem; /* Slightly larger for desktop */
+  }
+}
+
+/* Larger Desktop View */
+@media screen and (min-width: 1024px) {
+  .reviews-container {
+    padding: 50px; /* Match original padding for larger screens */
+    gap: 20px; /* Match original gap */
+  }
+
+  .reviews-container .card {
+    padding: 50px; /* Match original padding for larger screens */
+  }
+
+  .reviews-container .card .card-content .name .rate {
+    font-size: 1.2rem; /* Match original font size for desktop */
+       color: #F49600;
+  }
+}
