@@ -10,12 +10,12 @@ function Register() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const success = await OnSubmit();
-        if (success) {
-            setTimeout(() => {
-                navigate("/login", { state: { email } });
-            }, 1000);
-        }
+        await OnSubmit();
+        // if (success) {
+        //     setTimeout(() => {
+        //         navigate("/login", { state: { email } });
+        //     }, 1000);
+        // }
     };
 
     const handleSocialLogin = (platform) => {

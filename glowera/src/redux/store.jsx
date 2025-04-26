@@ -34,7 +34,7 @@ const middleware = [thunk];
 
 // إنشاء الـ store
 const store = createStore(rootReducer, initialState, composeWithDevTools(applyMiddleware(...middleware)));
-console.log("الحالة الابتدائية للمتجر:", store.getState());
+// console.log("الحالة الابتدائية للمتجر:", store.getState());
 
 // حفظ skinType و cartItems في localStorage عند التغيير
 store.subscribe(() => {

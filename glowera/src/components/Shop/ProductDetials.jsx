@@ -35,28 +35,28 @@ function ProductDetails() {
    const handleAddToCart = async () => {
        if (isAdding) return;
 
-       // التحقق من وجود بيانات المنتج
+       // Check if product data exists
        if (!product || !product._id || !product.price) {
-           toast.error("حدث خطأ أثناء تحميل بيانات المنتج!", { position: "top-center" });
+           toast.error("An error occurred loading product data!", { position: "top-center" });
            return;
        }
 
-       // التحقق من تحديد المقاس
+       // Check if size is selected
        if (!selectedSize) {
-           toast.warning("من فضلك اختر المقاس أولاً!", { position: "top-center" });
+           toast.warning("Please select a size first!", { position: "top-center" });
            return;
        }
 
-       // التحقق من أن الكمية أكثر من 0
+       // Check if quantity is greater than 0
        if (quantity < 1) {
-           toast.warning("الكمية يجب أن تكون 1 على الأقل.", { position: "top-center" });
+           toast.warning("Quantity must be at least 1.", { position: "top-center" });
            return;
        }
 
        try {
            setIsAdding(true);
 
-           // إنشاء الكائن الذي سيتم إضافته للسلة
+           // Create the object to be added to the cart
            const productToAdd = {
                _id: product._id,
                title: product.title,
@@ -64,16 +64,16 @@ function ProductDetails() {
                images: product.images,
                category: product.category,
                size: selectedSize,
-               quantity: quantity, // تأكد من أن الكمية الحالية تم تمريرها
+               quantity: quantity, // Ensure the current quantity is passed
            };
 
-           console.log(`🔼 إرسال المنتج للسلة بالكمية: ${quantity}`);
+        //    console.log(`🔼 Send product to cart with quantity: ${quantity}`);
 
-           // إضافة المنتج للسلة
+           // Add product to cart
            await dispatch(addToCart(productToAdd));
 
-           // إظهار إشعار بنجاح الإضافة للسلة
-           toast.success("تمت إضافة المنتج للسلة 🛒", {
+           // Show a notification of a successful addition to the cart
+           toast.success("The product has been added to the cart 🛒", {
                position: "top-center",
                autoClose: 2000,
                style: {
@@ -87,8 +87,8 @@ function ProductDetails() {
                icon: "🛒",
            });
        } catch (err) {
-           console.error("خطأ في الإضافة للسلة:", err);
-           toast.error("حدث خطأ أثناء إضافة المنتج للسلة.", { position: "top-center" });
+           console.error("Error adding to cart:", err);
+           toast.error("An error occurred while adding the product to the cart.", { position: "top-center" });
        } finally {
            setIsAdding(false);
        }

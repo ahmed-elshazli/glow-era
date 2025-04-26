@@ -20,7 +20,7 @@ export const fetchCart = () => async (dispatch, getState) => {
         });
 
         const cartItems = cartResponse.data.data.cartItems;
-        console.log("Cart data from server:", cartItems);
+        // console.log("Cart data from server:", cartItems);
 
         const productIds = cartItems.map((item) => item.product);
 
@@ -110,10 +110,10 @@ export const createCartIfNotExists = () => async (dispatch, getState) => {
 
         dispatch(fetchCart());
     } catch (error) {
-        console.error("createCartIfNotExists error:", error.response?.data);
-        toast.error(error.response?.data?.message || "Failed to create cart.", {
-            position: "top-center",
-        });
+        // console.error("createCartIfNotExists error:", error.response?.data);
+        // toast.error(error.response?.data?.message || "Failed to create cart.", {
+        //     position: "top-center",
+        // });
     }
 };
 
@@ -148,7 +148,7 @@ export const addToCart = (productData) => async (dispatch, getState) => {
             },
         });
 
-        console.log("Add to cart response:", response.data);
+        // console.log("Add to cart response:", response.data);
 
         if (response.data.status === "success") {
             // عند نجاح إضافة المنتج إلى السلة، نقوم بتحديث السلة من الرد
@@ -191,14 +191,14 @@ export const removeFromCart = (itemId) => async (dispatch, getState) => {
             return;
         }
 
-        console.log("Sending remove from cart request:", itemId);
+        // console.log("Sending remove from cart request:", itemId);
         const response = await baseURL.delete(`/api/v1/carts/${itemId}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         });
 
-        console.log("Remove item response:", response.data);
+        // console.log("Remove item response:", response.data);
         if (response.data.status === "success") {
             dispatch(fetchCart());
             toast.success("Product removed from cart successfully!", {
@@ -218,7 +218,7 @@ export const removeFromCart = (itemId) => async (dispatch, getState) => {
             toast.error("Failed to remove product from cart.", { position: "top-center" });
         }
     } catch (error) {
-        console.error("Remove item error:", error.response?.data);
+        // console.error("Remove item error:", error.response?.data);
         toast.error(error.response?.data?.message || "An error occurred while removing the product.", {
             position: "top-center",
         });
@@ -244,7 +244,7 @@ export const syncCart = () => async (dispatch, getState) => {
 
         const items = cart.items || [];
         if (!items.length) {
-            console.log("No items in the cart to sync.");
+            // console.log("No items in the cart to sync.");
             return true;
         }
 
@@ -261,7 +261,7 @@ export const syncCart = () => async (dispatch, getState) => {
                     },
                 )
                 .catch((error) => {
-                    console.error(`Failed to update quantity for item ${item._id}:`, error.response?.data);
+                    // console.error(`Failed to update quantity for item ${item._id}:`, error.response?.data);
                     return { error: true, itemId: item._id };
                 }),
         );
@@ -271,7 +271,7 @@ export const syncCart = () => async (dispatch, getState) => {
         const failedUpdates = responses.filter((res) => res?.error);
         if (failedUpdates.length > 0) {
             toast.error("Failed to sync some item quantities with the server.", { position: "top-center" });
-            console.log("Failed items:", failedUpdates);
+            // console.log("Failed items:", failedUpdates);
             return false;
         }
 

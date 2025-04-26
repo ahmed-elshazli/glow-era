@@ -27,7 +27,7 @@ export const checkUser = () => (dispatch) => {
         const token = localStorage.getItem("token");
         const user = JSON.parse(localStorage.getItem("user") || "null");
 
-        console.log("checkUser (local only):", { token, user });
+        // console.log("checkUser (local only):", { token, user });
 
         if (!token || !user) {
             dispatch({
@@ -62,7 +62,7 @@ export const createNewUser = (data) => async (dispatch) => {
         const response = await useInsertData("/api/v1/auth/signup", data);
         const { user, token } = extractUserAndToken(response.data);
 
-        console.log("createNewUser API response:", response.data);
+        // console.log("createNewUser API response:", response.data);
 
         if (token && user) {
             localStorage.setItem("token", token);
@@ -97,24 +97,24 @@ export const loginUser = (data, navigate) => async (dispatch) => {
         dispatch({ type: LOGIN_USER, payload: { loading: true } });
 
         const response = await useInsertData("/api/v1/auth/login", data);
-        console.log("loginUser API response:", response.data);
+        // console.log("loginUser API response:", response.data);
 
         const { user, token } = extractUserAndToken(response.data);
 
         if (token && user) {
             localStorage.setItem("token", token);
             localStorage.setItem("user", JSON.stringify(user));
-            console.log("loginUser: Data saved to localStorage:", { user, token });
+            // console.log("loginUser: Data saved to localStorage:", { user, token });
 
             await dispatch(createCartIfNotExists());
 
-            toast.success("تم تسجيل الدخول!");
+            toast.success("You are logged in!");
             dispatch({
                 type: LOGIN_USER,
                 payload: { user, token, loading: false, error: null },
             });
 
-            // navigate("/cart");
+            navigate("/cart");
         } else {
             throw new Error("بيانات تسجيل الدخول غير مكتملة.");
         }
@@ -125,7 +125,7 @@ export const loginUser = (data, navigate) => async (dispatch) => {
 
         const errorMessage = e.response?.data?.message || e.message || "فشل تسجيل الدخول.";
 
-        toast.error(errorMessage);
+        // toast.error(errorMessage);
         dispatch({
             type: LOGIN_USER,
             payload: { loading: false, error: e.response || e.message },
@@ -137,7 +137,7 @@ export const loginUser = (data, navigate) => async (dispatch) => {
 
 // ==================== ✅ Logout ====================
 export const logoutUser = (navigate) => (dispatch) => {
-    console.log("logoutUser: Removing data from localStorage");
+    // console.log("logoutUser: Removing data from localStorage");
 
     localStorage.removeItem("token");
     localStorage.removeItem("user");
@@ -147,7 +147,7 @@ export const logoutUser = (navigate) => (dispatch) => {
         payload: { user: null, token: null, loading: false },
     });
 
-    toast.success("تم تسجيل الخروج");
+    toast.success("You are logged out");
     // navigate("/login");
 };
 

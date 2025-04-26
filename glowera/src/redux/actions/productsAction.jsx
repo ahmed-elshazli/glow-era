@@ -19,7 +19,7 @@ export const getAllProducts =
                 },
             });
 
-            console.log("📦 Response from API:", response);
+            // console.log("📦 Response from API:", response);
 
             const productsData = response.data.data || response.data || [];
 

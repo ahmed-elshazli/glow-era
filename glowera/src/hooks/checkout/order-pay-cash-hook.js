@@ -29,7 +29,7 @@ const OrderPayCashHook = () => {
 
     const handleCashPayment = () => {
         if (!cartItems || cartItems.length === 0) {
-            toast.error("السلة فارغة، لا يمكن إتمام الطلب.");
+            toast.error("The cart is empty, the order cannot be completed.");
             return;
         }
         setShowPopup(true);

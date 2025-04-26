@@ -23,6 +23,7 @@ function Payment() {
     const cartLoading = cart.loading;
     const cartError = cart.error;
 
+    
     const { showPopup, setShowPopup, userDetails, handleCashPayment, handleCashSubmit, handleInputChange } = OrderPayCashHook();
 
     React.useEffect(() => {
@@ -37,7 +38,7 @@ function Payment() {
     const handleVisaPayment = async () => {
         try {
             if (cartItems.length === 0) {
-                toast.error("السلة فارغة! يرجى إضافة منتجات قبل الدفع.", {
+                toast.error("Your cart is empty! Please add items before checking out.", {
                     position: "top-center",
                 });
                 navigate("/cart"); // توجيه المستخدم إلى السلة
@@ -49,14 +50,14 @@ function Payment() {
                 await dispatch(createCartIfNotExists());
                 const updatedCart = useSelector((state) => state.cart);
                 if (!updatedCart.cartId) {
-                    throw new Error("فشل في إنشاء السلة. حاول مرة أخرى.");
+                    throw new Error("Failed to create basket. Try again.");
                 }
                 dispatch(goToStripeCheckout(updatedCart.cartId));
             } else {
                 dispatch(goToStripeCheckout(cartId));
             }
         } catch (error) {
-            toast.error(error.message || "فشل في معالجة الدفع.", {
+            toast.error(error.message || "Payment processing failed.", {
                 position: "top-center",
             });
         }

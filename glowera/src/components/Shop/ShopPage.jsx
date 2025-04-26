@@ -54,7 +54,8 @@ function ShopPage() {
     };
 
     // Filter products based on search input
-    const filteredProducts = products.filter((product) => product.title.toLowerCase().includes(searchQuery.toLowerCase()));
+    const filteredProducts = Array.isArray(products) ? products.filter((product) => product.title.toLowerCase().includes(searchQuery.toLowerCase())) : [];
+
 
     return (
         <section className="py-10 pb-20">

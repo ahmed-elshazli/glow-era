@@ -11,7 +11,7 @@ const initialState = {
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case CHECK_USER_REQUEST:
-            console.log("authReducer: Received CHECK_USER_REQUEST");
+            // console.log("authReducer: Received CHECK_USER_REQUEST");
             return {
                 ...state,
                 loading: true,
@@ -19,7 +19,7 @@ const authReducer = (state = initialState, action) => {
             };
 
         case CHECK_USER_ERROR: {
-            const message = action.payload?.message || action.payload?.error || "انتهت الجلسة. يرجى تسجيل الدخول مجددًا.";
+            const message = action.payload?.message || action.payload?.error || "authReducer: Session expired or invalid token.";
 
             console.warn("authReducer: Session expired or invalid token.");
             return {
@@ -34,7 +34,7 @@ const authReducer = (state = initialState, action) => {
 
         case CREATE_NEW_USER:
         case LOGIN_USER:
-            console.log("authReducer: Received", action.type);
+            // console.log("authReducer: Received", action.type);
             return {
                 ...state,
                 user: action.payload.user || null,
@@ -45,7 +45,7 @@ const authReducer = (state = initialState, action) => {
             };
 
         case SET_USER:
-            console.log("authReducer: Received SET_USER");
+            // console.log("authReducer: Received SET_USER");
             return {
                 ...state,
                 user: action.payload.user || null,
@@ -56,7 +56,7 @@ const authReducer = (state = initialState, action) => {
             };
 
         case LOGOUT_USER:
-            console.log("authReducer: Received LOGOUT_USER");
+            // console.log("authReducer: Received LOGOUT_USER");
             return {
                 ...state,
                 user: null,

@@ -28,23 +28,23 @@ const RegisterHook = () => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+[\]{};':"\\|,.<>/?]).{8,}$/;
 
-        if (!nameRegex.test(fname)) {
-            toast.error("First name must contain at least two letters and be valid.", { position: "top-center" });
+        if (!nameRegex.test(fname.trim())) {
+            toast.error("The first name must contain at least two characters and be valid.", { position: "top-center" });
             return false;
         }
 
-        if (!nameRegex.test(lname)) {
-            toast.error("The last name must contain at least two letters and be valid.", { position: "top-center" });
+        if (!nameRegex.test(lname.trim())) {
+            toast.error("The last name must contain at least two characters and be valid.", { position: "top-center" });
             return false;
         }
 
-        if (!emailRegex.test(email)) {
+        if (!emailRegex.test(email.trim())) {
             toast.error("Please enter a valid email address.", { position: "top-center" });
             return false;
         }
 
         if (!passwordRegex.test(password)) {
-            toast.error("The password must be at least 8 characters long, and contain an uppercase letter, number, and symbol.", { position: "top-center" });
+            toast.error("Password must contain at least 8 characters, including a capital letter, a number, and a symbol.", { position: "top-center" });
             return false;
         }
 
@@ -59,9 +59,9 @@ const RegisterHook = () => {
 
         const data = await dispatch(
             createNewUser({
-                fristName: fname,
-                lastName: lname,
-                email,
+                firstName: fname.trim(),
+                lastName: lname.trim(),
+                email: email.trim(),
                 password,
                 confirmPassword: password,
                 role: "user",
@@ -75,9 +75,10 @@ const RegisterHook = () => {
             setLName("");
             setEmail("");
             setPassword("");
-            navigate("/login", { state: { email } });
+            // توجيه المستخدم مباشرة إلى الصفحة الرئيسية بعد التسجيل
+            navigate("/home");
         } else {
-            const errorMsg = data?.errors?.[0]?.msg || data?.message || "Registration failed. Please try again.";
+            const errorMsg = data?.errors?.[0]?.msg || data?.message || "Registration failed, try again.";
             toast.error(errorMsg, { position: "top-center" });
         }
 

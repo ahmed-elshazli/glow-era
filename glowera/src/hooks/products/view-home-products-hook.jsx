@@ -31,7 +31,7 @@ const ViewHomeProductsHook = () => {
             localStorage.removeItem("pageRefreshed");
         } else if (selectedSkinType?._id) {
             // Fetch products only if the page was not refreshed
-            console.log("Hook Triggered - selectedSkinType:", selectedSkinType);
+            // console.log("Hook Triggered - selectedSkinType:", selectedSkinType);
             dispatch(getAllProducts(selectedSkinType._id));
         }
 
@@ -41,11 +41,11 @@ const ViewHomeProductsHook = () => {
     }, [selectedSkinType, dispatch]);
 
     useEffect(() => {
-        console.log("🧪 Products from Redux:", products);
+        // console.log("🧪 Products from Redux:", products);
     }, [products]);
 
     const state = useSelector((state) => state);
-    console.log("📦 Full Redux State:", state);
+    // console.log("📦 Full Redux State:", state);
 
     return [products, selectedSkinType, loading, error];
 };
