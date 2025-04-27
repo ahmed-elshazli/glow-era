@@ -27,9 +27,9 @@ function Footer() {
 
                     {/** Navigation Sections **/}
                     {[
-                        { title: "Products", links: ["Inner Care", "Skin Care", "Scalp Care"] },
-                        { title: "Guides", links: ["News", "Vision", "Q&A"] },
-                        { title: "Service", links: ["About Concierge", "Online Consultation", "Market"] },
+                        { title: "Products", links: ["Sensitive", "Combination", "Dry", "Oily"] },
+                        { title: "Guides", links: [ "Vision", "Q&A"] },
+                        // { title: "Service", links: ["About Concierge", "Online Consultation", "Market"] },
                         { title: "Contact", links: ["Contact Us"] },
                     ].map((section, index) => (
                         <div key={index}>

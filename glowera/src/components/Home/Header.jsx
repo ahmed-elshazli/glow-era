@@ -49,7 +49,7 @@ export default function Header() {
                 <form onSubmit={handleSubmit} className="flex flex-col items-center mt-14">
                     <div className="flex flex-wrap justify-center gap-4 md:gap-9">
                         {loading ? (
-                            <p className="text-[#EB477E] text-lg md:text-2xl">جاري تحميل الفئات...</p>
+                            <p className="text-[#EB477E] text-lg md:text-2xl">Loading categories...</p>
                         ) : category && category.length > 0 ? (
                             category.map((cat) => (
                                 <label key={cat._id} className="flex items-center text-[#EB477E] text-lg md:text-3xl font-medium cursor-pointer">
@@ -58,7 +58,7 @@ export default function Header() {
                                 </label>
                             ))
                         ) : (
-                            <p className="text-[#EB477E] text-lg md:text-2xl">لا توجد فئات متاحة</p>
+                            <p className="text-[#EB477E] text-lg md:text-2xl">No categories available</p>
                         )}
                     </div>
                     <div className="flex justify-center mt-8">

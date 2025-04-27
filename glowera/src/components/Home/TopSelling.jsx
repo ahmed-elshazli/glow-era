@@ -100,21 +100,20 @@ function TopSelling() {
     };
 
     return (
-        <section className="bg-white py-4 pl-20 sm:py-8 lg:py-5 relative">
-            <h2 className="text-xl md:text-3xl font-bold text-[#5C0A27] pl-7 pt-10 pb-7">Suggegtions & Top Selling</h2>
+        <section className="w-full py-2 px-4 md:px-24 bg-white mt-20 md:mt-32 relative">
+            <h2 className="text-xl pb-6 md:text-3xl font-bold text-[#5C0A27]">Suggegtions & Top Selling</h2>
             {/* Left Scroll Button */}
             <button
-                className="absolute left-9 z-10 top-1/2 transform -translate-y-1/2 bg-white text-[#C0748D] p-3 rounded-full shadow-lg 
-                                       hover:bg-[#C0748D] hover:text-white transition"
+                className="flex absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 text-[#C0748D] p-2 sm:p-3 rounded-full shadow-md hover:bg-[#C0748D] hover:text-white transition z-10"
                 onClick={() => scroll("left")}>
-                <FaChevronLeft />
+                <FaChevronLeft className="text-sm sm:text-base" />
             </button>
 
             {/* Scrollable container */}
-            <div ref={scrollRef} className="overflow-x-auto whitespace-nowrap px-6 scrollbar-hide relative">
-                <div className="flex gap-6">
+            <div ref={scrollRef} className="overflow-x-auto scrollbar-hide relative">
+                <div className="flex gap-4 sm:gap-6">
                     {products.map((product) => (
-                        <div key={product.id} className="bg-[#C0748D] w-64 h-[26rem] rounded-xl overflow-hidden flex-shrink-0 shadow-lg">
+                        <div key={product.id} className="bg-[#C0748D] w-48 sm:w-64 h-[24rem] sm:h-[26rem] rounded-xl overflow-hidden flex-shrink-0 shadow-lg cursor-pointer">
                             <a href="/shop" className="group relative block h-64">
                                 <img src={product.image} alt={product.name} className="h-full w-full object-cover rounded-xl transition duration-300 group-hover:scale-105" />
 
@@ -143,10 +142,9 @@ function TopSelling() {
 
             {/* Right Scroll Button */}
             <button
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white text-[#C0748D] p-3 rounded-full shadow-lg 
-                                       hover:bg-[#C0748D] hover:text-white transition "
+                className="flex absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 text-[#C0748D] p-2 sm:p-3 rounded-full shadow-md hover:bg-[#C0748D] hover:text-white transition z-10"
                 onClick={() => scroll("right")}>
-                <FaChevronRight />
+                <FaChevronRight className="text-sm sm:text-base" />
             </button>
         </section>
     );

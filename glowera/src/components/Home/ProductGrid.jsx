@@ -5,14 +5,14 @@ import { useDispatch } from "react-redux";
 import ViewHomeProductsHook from "../../hooks/products/view-home-products-hook";
 import { getAllProducts } from "../../redux/actions/productsAction";
 
-// Truncate text to a specific number of words
+// لتقصير النصوص
 const truncateText = (text, wordLimit) => {
     if (!text) return "";
     const words = text.split(" ");
     return words.length > wordLimit ? words.slice(0, wordLimit).join(" ") + "..." : text;
 };
 
-// Hook to get the window width
+// لمعرفة عرض الشاشة
 const useWindowWidth = () => {
     const [width, setWidth] = useState(window.innerWidth);
     useEffect(() => {
@@ -31,7 +31,7 @@ function ProductGrid() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    // Adjust title/description length based on screen size
+    // تحكم بطول النص حسب الشاشة
     let titleWordLimit = 4;
     let descWordLimit = 6;
     if (width < 640) {
@@ -48,7 +48,7 @@ function ProductGrid() {
 
     const scroll = (direction) => {
         if (scrollRef.current) {
-            const scrollAmount = 300;
+            const scrollAmount = width < 640 ? 200 : 300;
             scrollRef.current.scrollBy({
                 left: direction === "left" ? -scrollAmount : scrollAmount,
                 behavior: "smooth",
@@ -56,7 +56,6 @@ function ProductGrid() {
         }
     };
 
-    // Fetch products only if a skin type is selected
     useEffect(() => {
         if (selectedSkinType && selectedSkinType._id) {
             dispatch(getAllProducts(selectedSkinType._id));
@@ -70,28 +69,29 @@ function ProductGrid() {
     };
 
     return (
-        <section className="bg-white py-4 pl-20 sm:py-8 lg:py-5 relative">
+        <section className="bg-white py-4 px-4 sm:px-8 lg:px-20 relative">
+            {/* زر السهم لليسار */}
             <button
-                className="absolute left-9 z-10 top-1/2 transform -translate-y-1/2 bg-white text-[#C0748D] p-3 rounded-full shadow-lg 
-                           hover:bg-[#C0748D] hover:text-white transition"
+                className="flex absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 text-[#C0748D] p-2 sm:p-3 rounded-full shadow-md hover:bg-[#C0748D] hover:text-white transition z-10"
                 onClick={() => scroll("left")}>
-                <FaChevronLeft />
+                <FaChevronLeft className="text-sm sm:text-base" />
             </button>
 
-            <div ref={scrollRef} className="overflow-x-auto whitespace-nowrap px-6 scrollbar-hide relative">
-                <div className="flex gap-6">
+            {/* المنتجات */}
+            <div ref={scrollRef} className="overflow-x-auto scrollbar-hide relative">
+                <div className="flex gap-4 sm:gap-6">
                     {error ? (
                         <div>
-                            <p>An error occurred while fetching products: {error}</p>
-                            <button onClick={fetchProducts} className="mt-2 px-4 py-2 bg-[#C0748D] text-white rounded-lg hover:bg-[#5C0A25] transition">
+                            <p className="text-[#5C0A27]">An error occurred while fetching products: {error}</p>
+                            <button onClick={fetchProducts} className="mt-2 px-4 py-2 bg-[#C0748D] text-white rounded-lg hover:bg-[#5C0A27] transition">
                                 Retry
                             </button>
                         </div>
                     ) : loading ? (
-                        <p>Loading...</p>
+                        <p className="text-[#5C0A27]">Loading...</p>
                     ) : !selectedSkinType || !selectedSkinType._id ? (
-                        <p>
-                            Please select a skin type to view products or go to the{" "}
+                        <p className="text-[#5C0A27]">
+                            Please select a skin type or visit the{" "}
                             <Link to="/shop" className="text-[#C0748D] hover:underline">
                                 shop page
                             </Link>
@@ -102,42 +102,34 @@ function ProductGrid() {
                             <div
                                 key={product._id}
                                 onClick={() => navigate(`/product/${product._id}`)}
-                                className="bg-[#C0748D] w-64 h-[26rem] rounded-xl overflow-hidden flex-shrink-0 shadow-lg cursor-pointer">
-                                <div className="group relative block h-64">
+                                className="bg-[#C0748D] w-48 sm:w-64 h-[24rem] sm:h-[26rem] rounded-xl overflow-hidden flex-shrink-0 shadow-lg cursor-pointer">
+                                <div className="group relative block h-48 sm:h-64">
                                     <img src={product.images[0]} alt={product.title} className="h-full w-full object-cover rounded-xl transition duration-300 group-hover:scale-105" />
-                                    {/* <button
-                                        className="absolute bottom-4 right-4 border border-[#c74a6b] rounded-full p-2 transition-transform duration-200 hover:scale-110"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            toggleWishlist(product._id);
-                                        }}>
-                                        {wishlist.includes(product._id) ? <FaHeart className="text-[#c74a6b] text-lg" /> : <FaRegHeart className="text-lg text-[#c74a6b]" />}
-                                    </button> */}
                                 </div>
 
-                                <div className="pt-6 px-4 text-center">
-                                    <h3 className="text-lg font-bold text-white" title={product.title}>
+                                <div className="pt-4 sm:pt-6 px-2 sm:px-4 text-center">
+                                    <h3 className="text-base sm:text-lg font-bold text-white" title={product.title}>
                                         {truncateText(product.title, titleWordLimit)}
                                     </h3>
-                                    <p className="text-sm text-[#FDE8EF]" title={product.description}>
+                                    <p className="text-xs sm:text-sm text-[#FDE8EF]" title={product.description}>
                                         {truncateText(product.description, descWordLimit)}
                                     </p>
-                                    <p className="text-white font-medium">{product.size}</p>
-                                    <p className="font-bold text-[#5C0A27] text-lg mt-2">${product.price}</p>
+                                    <p className="text-white text-sm sm:text-base font-medium">{product.size}</p>
+                                    <p className="font-bold text-[#5C0A27] text-base sm:text-lg mt-2">${product.price}</p>
                                 </div>
                             </div>
                         ))
                     ) : (
-                        <p>No products found for the selected skin type.</p>
+                        <p className="text-[#5C0A27]">No products found for the selected skin type.</p>
                     )}
                 </div>
             </div>
 
+            {/* زر السهم لليمين */}
             <button
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white text-[#C0748D] p-3 rounded-full shadow-lg 
-                           hover:bg-[#C0748D] hover:text-white transition"
+                className="flex absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 text-[#C0748D] p-2 sm:p-3 rounded-full shadow-md hover:bg-[#C0748D] hover:text-white transition z-10"
                 onClick={() => scroll("right")}>
-                <FaChevronRight />
+                <FaChevronRight className="text-sm sm:text-base" />
             </button>
         </section>
     );

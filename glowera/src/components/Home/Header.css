@@ -3,7 +3,7 @@
     appearance: none; /* Remove default browser styling */
     width: 1.75rem; /* Default size for medium screens and above (matches md:w-7 md:h-7) */
     height: 1.75rem;
-    border: 2px solid #EC4680; /* Pink border before selection */
+    border: 3px solid #EC4680; /* Pink border before selection */
     border-radius: 50%; /* Make it a circle */
     background-color: white; /* White background when unselected */
     position: relative;
@@ -12,15 +12,15 @@
 }
 
 .custom-radio:checked {
-    background-color: #EC4680; /* Pink fill when selected */
-    border: 2px solid #EC4680; /* Keep the border pink */
+    /* background-color: #EC4680; Pink fill when selected */
+    /* border: 2px solid #EC4680; Keep the border pink */
 }
 
 .custom-radio:checked::before {
     content: '';
     width: 1rem; /* Size of the inner dot */
     height: 1rem;
-    background-color: white; /* White dot in the center when selected */
+    background-color: #EC4680; /* White dot in the center when selected */
     border-radius: 50%;
     position: absolute;
     top: 50%;
@@ -37,5 +37,9 @@
     .custom-radio:checked::before {
         width: 0.75rem; /* Smaller dot for smaller screens */
         height: 0.75rem;
+    }
+    .blur{
+        /* display: none; */
+        bottom: -40px;
     }
 }
