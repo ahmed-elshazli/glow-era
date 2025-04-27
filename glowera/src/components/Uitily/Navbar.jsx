@@ -50,7 +50,7 @@ export default function Navbar() {
     const isShopCartOrProductPage = location.pathname === "/shop" || location.pathname === "/cart" || location.pathname.startsWith("/product/");
     const isHomeOrRootPage = location.pathname === "/" || location.pathname === "/home";
 
-    const userName = `${user?.fristName || ""} ${user?.lastName || ""}`.trim() || "User";
+    const userName = `${user?.firstName || ""} ${user?.lastName || ""}`.trim() || "User";
 
     return (
         <nav className={`w-full flex justify-between items-center px-6 md:px-10 py-4 fixed top-0 left-0 z-50 transition-transform duration-300 ${isVisible ? "translate-y-0" : "-translate-y-full"}`}>
