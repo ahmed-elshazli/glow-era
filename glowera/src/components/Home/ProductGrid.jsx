@@ -105,14 +105,14 @@ function ProductGrid() {
                                 className="bg-[#C0748D] w-64 h-[26rem] rounded-xl overflow-hidden flex-shrink-0 shadow-lg cursor-pointer">
                                 <div className="group relative block h-64">
                                     <img src={product.images[0]} alt={product.title} className="h-full w-full object-cover rounded-xl transition duration-300 group-hover:scale-105" />
-                                    <button
+                                    {/* <button
                                         className="absolute bottom-4 right-4 border border-[#c74a6b] rounded-full p-2 transition-transform duration-200 hover:scale-110"
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             toggleWishlist(product._id);
                                         }}>
                                         {wishlist.includes(product._id) ? <FaHeart className="text-[#c74a6b] text-lg" /> : <FaRegHeart className="text-lg text-[#c74a6b]" />}
-                                    </button>
+                                    </button> */}
                                 </div>
 
                                 <div className="pt-6 px-4 text-center">

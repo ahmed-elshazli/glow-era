@@ -19,6 +19,10 @@ function ProductDetails() {
     const [selectedSize, setSelectedSize] = useState("");
     const [isAdding, setIsAdding] = useState(false);
 
+     useEffect(() => {
+         window.scrollTo({ top: 0, behavior: "smooth" });
+     }, []);
+
     useEffect(() => {
         if (!allProducts.length && !loading && !error) {
             dispatch(getAllProducts());
@@ -148,9 +152,9 @@ function ProductDetails() {
 
                         <button
                             onClick={handleAddToCart}
-                            className="bg-[#EC4680] text-white px-4 sm:px-6 py-2 rounded-lg hover:opacity-90 text-base sm:text-lg font-semibold flex items-center gap-2"
+                            className="bg-[#EC4680]  text-white px-4 w-50 sm:px-6 py-2 rounded-lg hover:opacity-90 text-base sm:text-lg font-semibold flex items-center justify-center gap-2"
                             disabled={isAdding}>
-                            <i className="fa-solid fa-cart-shopping"></i>
+                            {/* <i className="fa-solid fa-cart-shopping"></i> */}
                             Add to Cart
                         </button>
                     </div>

@@ -94,14 +94,14 @@ function Similar() {
                   <div key={product.id} className="bg-[#C0748D] w-84 h-[29rem] rounded-xl overflow-hidden shadow-lg relative cursor-pointer" onClick={() => navigate(`/product/${product.id}`)}>
                       <div className="relative">
                           <img src={product.image} alt={product.name} className="h-74 w-full object-cover rounded-xl transition duration-300 hover:scale-105" />
-                          <button
+                          {/* <button
                               className="absolute bottom-4 right-4 border border-[#c74a6b] rounded-full p-2 transition-transform duration-200 hover:scale-110"
                               onClick={(e) => {
                                   e.stopPropagation();
                                   toggleWishlist(product.id);
                               }}>
                               {wishlist.includes(product.id) ? <FaHeart className="text-[#c74a6b] text-lg" /> : <FaRegHeart className="text-lg text-[#c74a6b]" />}
-                          </button>
+                          </button> */}
                       </div>
 
                       <div className="p-4 text-center">

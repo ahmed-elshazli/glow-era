@@ -6,7 +6,7 @@ function CategorySearchBar({ width = "7.5rem" }) {
     const [isFocused, setIsFocused] = useState(false);
 
     return (
-        <section className="w-full py-1 pl-25 bg-white mt-32">
+        <section className="w-full py-1 pl-25 bg-white mt-32" id="product-grid">
             <div className="flex items-center gap-6 w-full">
                 {/* Category Title */}
                 <h2 className="text-2xl md:text-3xl font-bold text-[#5C0A27]">Category</h2>

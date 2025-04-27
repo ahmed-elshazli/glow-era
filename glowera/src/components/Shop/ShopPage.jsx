@@ -106,14 +106,14 @@ function ShopPage() {
                                 onClick={() => navigate(`/product/${product._id}`)}>
                                 <div className="relative">
                                     <img src={product.images[0]} alt={product.title} className="h-74 w-full object-cover rounded-xl transition duration-300 hover:scale-105" />
-                                    <button
+                                    {/* <button
                                         className="absolute bottom-4 right-4 border border-[#c74a6b] rounded-full p-2 transition-transform duration-200 hover:scale-110 bg-white"
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             toggleWishlist(product._id);
                                         }}>
                                         {wishlist.includes(product._id) ? <FaHeart className="text-[#c74a6b] text-lg" /> : <FaRegHeart className="text-lg text-[#c74a6b]" />}
-                                    </button>
+                                    </button> */}
                                 </div>
 
                                 <div className="p-4 text-center">
