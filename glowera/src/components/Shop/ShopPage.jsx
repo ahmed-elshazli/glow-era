@@ -104,8 +104,8 @@ function ShopPage() {
                                 key={product._id}
                                 className="bg-[#C0748D] w-84 h-[29rem] rounded-xl overflow-hidden shadow-lg relative cursor-pointer"
                                 onClick={() => navigate(`/product/${product._id}`)}>
-                                <div className="relative">
-                                    <img src={product.images[0]} alt={product.title} className="h-74 w-full object-cover rounded-xl transition duration-300 hover:scale-105" />
+                                <div className="relative bg-white">
+                                    <img src={product.images[0]} alt={product.title} className="h-74 w-full object-contain rounded-xl transition duration-300 hover:scale-105" />
                                     {/* <button
                                         className="absolute bottom-4 right-4 border border-[#c74a6b] rounded-full p-2 transition-transform duration-200 hover:scale-110 bg-white"
                                         onClick={(e) => {

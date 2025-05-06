@@ -104,7 +104,7 @@ function ProductDetails() {
         <div className="container mx-auto px-4 sm:px-6 md:px-8 py-10">
             <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10 p-4 sm:p-6">
                 <div className="flex-shrink-0 w-full max-w-xs md:w-96 md:h-[400px]">
-                    <img src={product.images[0]} alt={product.title} className="w-full h-auto rounded-lg md:h-[400px] object-cover" />
+                    <img src={product.images[0]} alt={product.title} className="w-full h-auto rounded-lg md:h-[400px] object-contain" />
                 </div>
                 <div className="w-full max-w-md">
                     <h2 className="text-[#F0759E] text-xl sm:text-2xl font-bold">{product.title}</h2>

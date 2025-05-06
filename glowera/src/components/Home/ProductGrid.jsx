@@ -103,8 +103,8 @@ function ProductGrid() {
                                 key={product._id}
                                 onClick={() => navigate(`/product/${product._id}`)}
                                 className="bg-[#C0748D] w-48 sm:w-64 h-[24rem] sm:h-[26rem] rounded-xl overflow-hidden flex-shrink-0 shadow-lg cursor-pointer">
-                                <div className="group relative block h-48 sm:h-64">
-                                    <img src={product.images[0]} alt={product.title} className="h-full w-full object-cover rounded-xl transition duration-300 group-hover:scale-105" />
+                                <div className="group relative bg-white block h-48 sm:h-64">
+                                    <img src={product.images[0]} alt={product.title} className="h-full w-full object-contain rounded-xl transition duration-300 group-hover:scale-105" />
                                 </div>
 
                                 <div className="pt-4 sm:pt-6 px-2 sm:px-4 text-center">
