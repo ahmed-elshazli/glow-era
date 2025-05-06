@@ -98,11 +98,11 @@ function ShopPage() {
                 ) : loading ? (
                     <p className="text-center text-[#5C0A25] mt-6 text-xl">Loading...</p>
                 ) : filteredProducts.length > 0 ? (
-                    <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 px-6">
+                    <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-6 md:gap-8 px-4 sm:px-6">
                         {filteredProducts.map((product) => (
                             <div
                                 key={product._id}
-                                className="bg-[#C0748D] w-84 h-[29rem] rounded-xl overflow-hidden shadow-lg relative cursor-pointer"
+                                className="bg-[#C0748D] max-w-[18rem] mx-auto h-[29rem] rounded-xl overflow-hidden shadow-lg relative cursor-pointer"
                                 onClick={() => navigate(`/product/${product._id}`)}>
                                 <div className="relative bg-white">
                                     <img src={product.images[0]} alt={product.title} className="h-74 w-full object-contain rounded-xl transition duration-300 hover:scale-105" />
