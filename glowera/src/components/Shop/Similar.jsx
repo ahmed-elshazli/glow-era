@@ -1,120 +1,85 @@
-import React, { useState } from 'react'
-import { FaHeart, FaRegHeart } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllProducts } from "../../redux/actions/productsAction";
 
+// دالة لقطع النص
+const truncateText = (text, wordLimit) => {
+    if (!text) return "";
+    const words = text.split(" ");
+    return words.length > wordLimit ? words.slice(0, wordLimit).join(" ") + "..." : text;
+};
 
-const products = [
-    {
-        id: 1,
-        name: "Aloe Glow Serum",
-        brand: "Fancy Brand",
-        price: "$19.99",
-        details: "An intensely hydrating serum",
-        image: "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&q=75&fit=crop&crop=top&w=600&h=700",
-        value: "120ml",
-    },
-    {
-        id: 2,
-        name: "Cool Outfit",
-        brand: "Cool Brand",
-        price: "$29.99",
-        details: "A stylish outfit for a modern look",
-        image: "https://images.unsplash.com/photo-1523359346063-d879354c0ea5?auto=format&q=75&fit=crop&crop=top&w=600&h=700",
-        value: "120ml",
-    },
-    {
-        id: 3,
-        name: "Nice Outfit",
-        brand: "Nice Brand",
-        price: "$35.00",
-        details: "Trendy casual outfit for daily wear",
-        image: "https://images.unsplash.com/photo-1548286978-f218023f8d18?auto=format&q=75&fit=crop&crop=top&w=600&h=700",
-        value: "120ml",
-    },
-    {
-        id: 4,
-        name: "Lavish Outfit",
-        brand: "Lavish Brand",
-        price: "$49.99",
-        details: "Elegant wear with premium fabric",
-        image: "https://images.unsplash.com/photo-1566207274740-0f8cf6b7d5a5?auto=format&q=75&fit=crop&crop=top&w=600&h=700",
-        value: "120ml",
-    },
-    {
-        id: 4,
-        name: "Lavish Outfit",
-        brand: "Lavish Brand",
-        price: "$49.99",
-        details: "Elegant wear with premium fabric",
-        image: "https://images.unsplash.com/photo-1566207274740-0f8cf6b7d5a5?auto=format&q=75&fit=crop&crop=top&w=600&h=700",
-        value: "120ml",
-    },
-    {
-        id: 4,
-        name: "Lavish Outfit",
-        brand: "Lavish Brand",
-        price: "$49.99",
-        details: "Elegant wear with premium fabric",
-        image: "https://images.unsplash.com/photo-1566207274740-0f8cf6b7d5a5?auto=format&q=75&fit=crop&crop=top&w=600&h=700",
-        value: "120ml",
-    },
-    {
-        id: 4,
-        name: "Lavish Outfit",
-        brand: "Lavish Brand",
-        price: "$49.99",
-        details: "Elegant wear with premium fabric",
-        image: "https://images.unsplash.com/photo-1566207274740-0f8cf6b7d5a5?auto=format&q=75&fit=crop&crop=top&w=600&h=700",
-        value: "120ml",
-    },
-    {
-        id: 4,
-        name: "Lavish Outfit",
-        brand: "Lavish Brand",
-        price: "$49.99",
-        details: "Elegant wear with premium fabric",
-        image: "https://images.unsplash.com/photo-1566207274740-0f8cf6b7d5a5?auto=format&q=75&fit=crop&crop=top&w=600&h=700",
-        value: "120ml",
-    },
-];
+// هوك لعرض متجاوب
+const useWindowWidth = () => {
+    const [width, setWidth] = useState(window.innerWidth);
+    useEffect(() => {
+        const handleResize = () => setWidth(window.innerWidth);
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+    return width;
+};
 
 function Similar() {
-
     const [wishlist, setWishlist] = useState([]);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const width = useWindowWidth();
 
-    const toggleWishlist = (id) => {
-        setWishlist((prevWishlist) => (prevWishlist.includes(id) ? prevWishlist.filter((item) => item !== id) : [...prevWishlist, id]));
-    };
-  return (
-      <>
-          <h2 className="text-xl md:text-3xl font-bold text-[#5C0A27] pl-7  pb-7">Similar Items</h2>
-          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 px-6 pb-20">
-              {products.map((product) => (
-                  <div key={product.id} className="bg-[#C0748D] w-84 h-[29rem] rounded-xl overflow-hidden shadow-lg relative cursor-pointer" onClick={() => navigate(`/product/${product.id}`)}>
-                      <div className="relative">
-                          <img src={product.image} alt={product.name} className="h-74 w-full object-cover rounded-xl transition duration-300 hover:scale-105" />
-                          {/* <button
-                              className="absolute bottom-4 right-4 border border-[#c74a6b] rounded-full p-2 transition-transform duration-200 hover:scale-110"
-                              onClick={(e) => {
-                                  e.stopPropagation();
-                                  toggleWishlist(product.id);
-                              }}>
-                              {wishlist.includes(product.id) ? <FaHeart className="text-[#c74a6b] text-lg" /> : <FaRegHeart className="text-lg text-[#c74a6b]" />}
-                          </button> */}
-                      </div>
+    const { data: products, loading, error } = useSelector((state) => state.allProducts);
 
-                      <div className="p-4 text-center">
-                          <h3 className="text-lg font-bold text-white">{product.name}</h3>
-                          <p className="text-sm text-[#FDE8EF]">{product.details}</p>
-                          <p className="text-white font-medium">{product.value}</p>
-                          <p className="font-bold text-lg text-[#5C0A27] mt-2">{product.price}</p>
-                      </div>
-                  </div>
-              ))}
-          </div>
-      </>
-  );
+    useEffect(() => {
+        dispatch(getAllProducts());
+    }, [dispatch]);
+
+    const displayedProducts = Array.isArray(products) ? products.slice(0, 8) : [];
+
+    // تقليل عدد الكلمات حسب حجم الشاشة
+    let titleWordLimit = 4;
+    let descWordLimit = 6;
+    if (width < 640) {
+        titleWordLimit = 2;
+        descWordLimit = 3;
+    } else if (width < 1024) {
+        titleWordLimit = 3;
+        descWordLimit = 4;
+    }
+
+    return (
+        <>
+            <h2 className="text-xl md:text-3xl font-bold text-[#5C0A27] pl-6 sm:pl-10 pb-6">Similar Items</h2>
+            {loading ? (
+                <p className="text-center text-[#5C0A25] mt-6 text-xl">Loading...</p>
+            ) : error ? (
+                <p className="text-center text-[#5C0A25] mt-6 text-xl">Failed to load products.</p>
+            ) : (
+                <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-6 md:gap-8 px-4 sm:px-6 pb-20">
+                    {displayedProducts.map((product) => (
+                        <div
+                            key={product._id}
+                            className="bg-[#C0748D] max-w-[18rem] mx-auto h-[29rem] rounded-xl overflow-hidden shadow-lg relative cursor-pointer"
+                            onClick={() => navigate(`/product/${product._id}`)}>
+                            <div className="relative bg-white">
+                                <img src={product.images?.[0]} alt={product.title} className="h-72 w-full object-contain rounded-xl transition duration-300 hover:scale-105" />
+                            </div>
+
+                            <div className="p-4 text-center">
+                                <h3 className="text-lg font-bold text-white" title={product.title}>
+                                    {truncateText(product.title, titleWordLimit)}
+                                </h3>
+                                <p className="text-sm text-[#FDE8EF]" title={product.description}>
+                                    {truncateText(product.description, descWordLimit)}
+                                </p>
+                                <p className="text-white font-medium">{product.value}</p>
+                                <p className="font-bold text-lg text-[#5C0A27] mt-2">EGP {product.price}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
+        </>
+    );
 }
 
-export default Similar
+export default Similar;
