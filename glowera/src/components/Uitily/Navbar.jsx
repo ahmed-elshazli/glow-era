@@ -40,12 +40,18 @@ export default function Navbar() {
     ];
 
     const handleScrollToSection = (sectionId) => {
-        const section = document.getElementById(sectionId);
-        if (section) {
-            section.scrollIntoView({ behavior: "smooth" });
+        if (isHomeOrRootPage) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: "smooth" });
+                setIsOpen(false);
+            }
+        } else {
+            navigate("/home", { state: { scrollTo: sectionId } });
             setIsOpen(false);
         }
     };
+
 
     const isShopCartOrProductPage = location.pathname === "/shop" || location.pathname === "/cart" || location.pathname.startsWith("/product/");
     const isHomeOrRootPage = location.pathname === "/" || location.pathname === "/home";

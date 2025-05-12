@@ -10,10 +10,25 @@ import CustomerReviews from '../components/Home/CustomerReviews'
 import Footer from '../components/Uitily/Footer'
 import {BrowserRouter , Routes, Route} from 'react-router-dom'
 import { useState } from 'react'
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 function Landing() {
 const [skinType, setSkinType] = useState("");
  
+  const location = useLocation();
+
+  useEffect(() => {
+      if (location.state?.scrollTo) {
+          const section = document.getElementById(location.state.scrollTo);
+          if (section) {
+              setTimeout(() => {
+                  section.scrollIntoView({ behavior: "smooth" });
+              }, 100); // تأخير بسيط لضمان تحميل المحتوى
+          }
+      }
+  }, [location.state]);
+
   
   return (
       <>
