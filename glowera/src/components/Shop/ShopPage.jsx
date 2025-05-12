@@ -117,12 +117,13 @@ function ShopPage() {
                                 </div>
 
                                 <div className="p-4 text-center">
-                                    <h3 className="text-lg font-bold text-white" title={product.title}>
-                                        {truncateText(product.title, titleWordLimit)}
+                                    <h3 className="text-base sm:text-lg font-bold text-white truncate w-full" title={product.title}>
+                                        {product.title}
                                     </h3>
-                                    <p className="text-sm text-[#FDE8EF]" title={product.description}>
-                                        {truncateText(product.description, descWordLimit)}
+                                    <p className="text-xs sm:text-sm text-[#FDE8EF] truncate w-full" title={product.description}>
+                                        {product.description}
                                     </p>
+
                                     <p className="text-white font-medium">{product.value}</p>
                                     <p className="font-bold text-lg text-[#5C0A27] mt-2">EGP {product.price}</p>
                                 </div>

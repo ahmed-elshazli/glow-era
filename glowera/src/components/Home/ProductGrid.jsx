@@ -32,15 +32,15 @@ function ProductGrid() {
     const dispatch = useDispatch();
 
     // تحكم بطول النص حسب الشاشة
+    // تحكم بطول النص حسب الشاشة
     let titleWordLimit = 4;
-    let descWordLimit = 6;
+    let descWordLimit = 3; // ثابت ليظهر سطر واحد فقط
     if (width < 640) {
         titleWordLimit = 2;
-        descWordLimit = 3;
     } else if (width < 1024) {
         titleWordLimit = 3;
-        descWordLimit = 4;
     }
+
 
     const toggleWishlist = (id) => {
         setWishlist((prev) => (prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]));
@@ -108,14 +108,15 @@ function ProductGrid() {
                                 </div>
 
                                 <div className="pt-4 sm:pt-6 px-2 sm:px-4 text-center">
-                                    <h3 className="text-base sm:text-lg font-bold text-white" title={product.title}>
-                                        {truncateText(product.title, titleWordLimit)}
+                                    <h3 className="text-base sm:text-lg font-bold text-white truncate w-full" title={product.title}>
+                                        {product.title}
                                     </h3>
-                                    <p className="text-xs sm:text-sm text-[#FDE8EF]" title={product.description}>
-                                        {truncateText(product.description, descWordLimit)}
+                                    <p className="text-xs sm:text-sm text-[#FDE8EF] truncate w-full" title={product.description}>
+                                        {product.description}
                                     </p>
+
                                     <p className="text-white text-sm sm:text-base font-medium">{product.size}</p>
-                                    <p className="font-bold text-[#5C0A27] text-base sm:text-lg mt-2">${product.price}</p>
+                                    <p className="font-bold text-[#5C0A27] text-base sm:text-lg ">EGP {product.price}</p>
                                 </div>
                             </div>
                         ))
